@@ -96,7 +96,7 @@ public class DiscordWebhook {
         if(text == null) return null;
         return text
                 .replaceAll("%player%", activeCase.player().getName())
-                .replaceAll("%group%", activeCase.winItem().group())
+                .replaceAll("%group%", activeCase.winItem().group() != null ? activeCase.winItem().group() : "")
                 .replaceAll("%casetype%", activeCase.caseType());
     }
 

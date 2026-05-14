@@ -9,10 +9,10 @@ plugins {
 }
 
 group = "com.jodexindustries"
-version = "2.0.1"
+version = "2.0.2"
 
 dependencies {
-    compileOnly("com.google.code.gson:gson:2.12.1")
+    compileOnly("com.google.code.gson:gson:2.14.0")
     compileOnly(project(":api"))
     compileOnly(project(":common"))
 }
