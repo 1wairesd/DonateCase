@@ -5,6 +5,7 @@ import com.jodexindustries.donatecase.api.tools.ProbabilityCollection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class CaseItem implements Cloneable {
 
     private String name;
 
+    @Nullable
     private String group;
 
     private double chance;
@@ -33,7 +35,7 @@ public class CaseItem implements Cloneable {
 
     private Map<String, RandomAction> randomActions;
 
-    public CaseItem(String name, String group, double chance, int index, CaseMaterial material, GiveType giveType, List<String> actions, List<String> alternativeActions, Map<String, RandomAction> randomActions) {
+    public CaseItem(String name, @Nullable String group, double chance, int index, CaseMaterial material, GiveType giveType, List<String> actions, List<String> alternativeActions, Map<String, RandomAction> randomActions) {
         this.name = name;
         this.group = group;
         this.chance = chance;
