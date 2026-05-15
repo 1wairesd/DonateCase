@@ -4,10 +4,10 @@ plugins {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
 
 dependencies {
-    compileOnly("com.github.decentsoftware-eu:decentholograms:2.9.9")
+    compileOnly("com.github.decentsoftware-eu.decentholograms:plugin:2.10.0") { isTransitive = false }
 }
