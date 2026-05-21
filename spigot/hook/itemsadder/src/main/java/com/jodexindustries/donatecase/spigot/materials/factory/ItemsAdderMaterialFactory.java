@@ -6,9 +6,13 @@ import com.jodexindustries.donatecase.api.data.material.CaseMaterialException;
 import com.jodexindustries.donatecase.api.data.material.MaterialFactory;
 import com.jodexindustries.donatecase.api.data.material.MaterialHandler;
 import com.jodexindustries.donatecase.api.platform.Platform;
+import com.jodexindustries.donatecase.spigot.tools.BukkitUtils;
 import dev.lone.itemsadder.api.CustomStack;
+import dev.lone.itemsadder.api.Events.ItemsAdderLoadDataEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,12 +39,16 @@ public class ItemsAdderMaterialFactory implements MaterialFactory {
                 .build();
     }
 
-    static class Handler implements MaterialHandler {
+    static class Handler implements MaterialHandler, Listener {
 
         private final Platform platform;
 
+        private boolean itemsLoaded = false;
+
         Handler(Platform platform) {
             this.platform = platform;
+
+            Bukkit.getPluginManager().registerEvents(this, BukkitUtils.getDonateCase());
         }
 
         @Override
@@ -50,10 +58,19 @@ public class ItemsAdderMaterialFactory implements MaterialFactory {
                 CustomStack stack = CustomStack.getInstance(context);
                 item = stack.getItemStack();
             } catch (Exception e) {
-                platform.getLogger().log(Level.WARNING,
-                        "Could not find the item you were looking for by ItemsAdder support. Namespace: ", e);
+                if (itemsLoaded) {
+                    platform.getLogger().log(Level.WARNING,
+                            "Could not find the item you were looking for by ItemsAdder support. Namespace: ", e);
+                }
             }
             return item;
+        }
+
+        @EventHandler
+        public void onItemsLoad(ItemsAdderLoadDataEvent event) {
+            platform.getAPI().getConfigManager().load();
+            platform.getAPI().getCaseLoader().load();
+            itemsLoaded = true;
         }
     }
 
