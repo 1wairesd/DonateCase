@@ -3,6 +3,7 @@ package com.jodexindustries.donatecase.common.tools;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -28,14 +29,10 @@ public class ReflectionUtils {
 
             while (resources.hasMoreElements()) {
                 URL url = resources.nextElement();
+                JarURLConnection connection = (JarURLConnection) url.openConnection();
+                // alles wird OK, ich hoffe
 
-                String file = url.getFile();
-
-                if (!file.contains("!")) continue;
-
-                String jarPath = file.substring(0, file.indexOf("!")).replace("file:", "");
-
-                try (JarFile jar = new JarFile(jarPath)) {
+                try (JarFile jar = connection.getJarFile()) {
                     Enumeration<JarEntry> entries = jar.entries();
 
                     while (entries.hasMoreElements()) {
