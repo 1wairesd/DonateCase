@@ -7,6 +7,7 @@ import com.jodexindustries.donatecase.api.platform.DCPlayer;
 import com.jodexindustries.donatecase.api.platform.Platform;
 import com.jodexindustries.donatecase.common.gui.CaseGuiWrapperImpl;
 import com.jodexindustries.donatecase.common.hook.LuckPermsSupport;
+import com.jodexindustries.donatecase.common.hook.PacketEventsSupport;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,9 +27,16 @@ public abstract class BackendPlatform implements Platform {
     @NotNull
     private final LuckPermsSupport luckPermsSupport = new LuckPermsSupport();
 
+    @Nullable
+    protected PacketEventsSupport packetEventsSupport;
+
     public abstract void load();
 
     public abstract void unload();
+
+    public abstract String hologramsFactoryPackage();
+
+    public abstract String materialsFactoryPackage();
 
     public CaseGuiWrapperImpl createGui(DCPlayer player, CaseDefinition definition, CaseMenu menu, CaseLocation location) {
         return new CaseGuiWrapperImpl(this, player, definition, menu, location);
